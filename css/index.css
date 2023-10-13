@@ -10,11 +10,11 @@
 .wall-bg::before {
   z-index: 2;
   content: ' ';
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.9);
   transition: background-color 200ms ease-in;
 }
 .wall-main:hover+.wall-bg::before {
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.1);
 }
 .wall-main:hover+.wall-bg .cursor {
   animation: spark 1s ease infinite;
