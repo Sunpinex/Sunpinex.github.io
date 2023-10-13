@@ -146,7 +146,7 @@ figure.highlight .gutter pre {
   justify-content: center;
   align-items: center;
   position: relative;
-  max-width: 1200px;
+  max-width: 1920px;
   margin: 0 auto;
   width: 100%;
   overflow: hidden;
@@ -321,7 +321,7 @@ mjx-container {
 .matts {
   cursor: default;
   display: inline-flex;
-  background: url("/images/matts.svg") center center/contain no-repeat;
+  background: url("/Sunpinex/images/matts.svg") center center/contain no-repeat;
   align-items: center;
   padding: 8px;
   transition: opacity 200ms ease-out;
@@ -524,17 +524,17 @@ mjx-container {
   }
 }
 .foot {
-  background-color: #000;
+  background-color: #fff;
 }
 .foot-inner {
   color: #aaa;
   margin: 0 auto;
   max-width: 1200px;
   overflow: hidden;
-  padding: 40px 0 10px;
+  padding: 10px 0;
 }
 .foot-item {
-  margin: 22px;
+  margin: 8px;
   line-height: 40px;
 }
 .foot__head {
@@ -554,7 +554,7 @@ mjx-container {
   flex-wrap: wrap;
 }
 .foot-item__head {
-  font-size: 24px;
+  font-size: 22px;
   margin: 10px 0;
 }
 .foot-link {

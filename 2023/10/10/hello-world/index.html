@@ -13,23 +13,23 @@
     
       <link rel="apple-touch-icon"
             sizes="180x180"
-            href="/images/apple-touch-icon.png"/>
+            href="/Sunpinex/images/apple-touch-icon.png"/>
     
     
       <link rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/images/favicon-32x32.png"/>
+            href="/Sunpinex/images/favicon-32x32.png"/>
     
     
       <link rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/images/favicon-16x16.png"/>
+            href="/Sunpinex/images/favicon-16x16.png"/>
     
     
       <link rel="mask-icon"
-            href="/images/logo.svg"
+            href="/Sunpinex/images/logo.svg"
             color=""/>
     
     
@@ -38,7 +38,7 @@
   <style>
     @font-face {
         font-family:sourceHanSerif;
-        src: url(/font/regular.ttf);
+        src: url(/Sunpinex/font/regular.ttf);
         font-weight: regular;
     }
   </style>
@@ -46,7 +46,7 @@
   <style>
     @font-face {
         font-family:sourceHanSerif;
-        src: url(/font/bold.ttf);
+        src: url(/Sunpinex/font/bold.ttf);
         font-weight: bold;
     }
   </style>
@@ -55,26 +55,26 @@
     
     <link rel="stylesheet"
           type="text/css"
-          href='/css/layout.css'/>
+          href='/Sunpinex/css/layout.css'/>
     
     
-  <link rel="stylesheet" type="text/css" href="/css/post.css" />
-  
+  <link rel="stylesheet" type="text/css" href="/Sunpinex/css/post.css" />
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
 
   <meta name="generator" content="Hexo 6.3.0"></head>
   <body>
     <div class="head">
       <div class="nav">
-        <a href='/' class="nav-logo">
-          <img alt="logo" height="60px" width="60px" src="/images/logo.svg"/>
+        <a href='/Sunpinex/' class="nav-logo">
+          <img alt="logo" height="60px" width="60px" src="/Sunpinex/images/logo.svg"/>
         </a>
         <input id="navBtn" type="checkbox"/>
         <div class="nav-menu">
           
             
-              <a class="nav-menu-item" href="/developer">开发者</a>
+              <a class="nav-menu-item" href="/Sunpinex/developer">开发者</a>
             
-              <a class="nav-menu-item" href="/life">生活</a>
+              <a class="nav-menu-item" href="/Sunpinex/life">生活</a>
             
           
           
@@ -103,7 +103,7 @@
             
           </div>
         
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -129,12 +129,12 @@
          width="100px"
          id="front-face"
          alt="author face"
-         src="/assets/author-face.jpg" />
+         src="/Sunpinex/assets/author-face.jpg" />
     <img height="100px"
          width="100px"
          id="back-face"
          alt="like code"
-         src="/assets/pay-code.jpg" />
+         src="/Sunpinex/assets/pay-code.jpg" />
   </div>
   <div class="like-text">“给作者倒杯卡布奇诺”</div>
   <label for="likeCode" class="like-btn">
@@ -167,45 +167,19 @@
 </div>
   <div class="realated__body">
     
-      DEBUG: 请安装插件 <a target="_blank" rel="noopener" href="https://github.com/tea3/hexo-related-popular-posts">hexo-related-popular-posts</a> 或关闭 related_post 配置!
+      DEBUG: 请安装插件 <a href="https://github.com/tea3/hexo-related-popular-posts">hexo-related-popular-posts</a> 或关闭 related_post 配置!
     
   </div>
 </div>
 
     
-    
+    <div id="gitalk-container"></div>
   </div>
 
     </div>
     <div class="foot">
       <div class="foot-inner">
-        <div class="foot__head">
-          
-            <div class="foot-line">
-              
-                <div class="matts">松</div>
-              
-                <div class="matts">贞</div>
-              
-                <div class="matts">玉</div>
-              
-                <div class="matts">刚</div>
-              
-            </div>
-          
-            <div class="foot-line">
-              
-                <div class="matts">阳</div>
-              
-                <div class="matts">春</div>
-              
-                <div class="matts">白</div>
-              
-                <div class="matts">雪</div>
-              
-            </div>
-          
-        </div>
+        
         <div class="foot__body">
           
           
@@ -214,12 +188,12 @@
               <div class="foot-item__body">
                 
                   <div class="text">
-                    <img alt="link" height="20px" width="20px" src="/images/logo-github.svg"/>
-                    <a class="foot-link" target="_blank" rel="noopener" href="https://github.com/Sunpinex">github：sunpinex</a>
+                    <img alt="link" height="20px" width="20px" src="/Sunpinex/images/logo-github.svg"/>
+                    <a class="foot-link" href="https://github.com/Sunpinex">github：sunpinex</a>
                   </div>
                 
                   <div class="text">
-                    <img alt="link" height="20px" width="20px" src="/images/logo-wx.svg"/>
+                    <img alt="link" height="20px" width="20px" src="/Sunpinex/images/logo-wx.svg"/>
                     <a class="foot-link" href="">微信号：Fchwpo02</a>
                   </div>
                 
@@ -230,25 +204,27 @@
             <div class="foot-item__head">联系</div>
             <div class="foot-item__body">
               <div class="text">
-                <img alt="link" height="20px" width="20px" src="/images/icon/icon-email.svg"/>
+                <img alt="link" height="20px" width="20px" src="/Sunpinex/images/icon/icon-email.svg"/>
                 <a class="foot-link" href="mailto:1319568705@qq.com">1319568705@qq.com</a>
               </div>
             </div>
           </div>
         </div>
         <div class="copyright">
-          <a href="http://example.com">AULDUNS.SITE</a>
-          <svg width="20" height="20" viewBox="0 0 725 725">
-            <path fill-rule="evenodd" fill="rgb(221, 221, 221)" d="M145.870,236.632 L396.955,103.578 L431.292,419.44 L156.600,522.53 L145.870,236.632 Z"/>
-            <path fill-rule="evenodd" fill="rgb(159, 159, 159)" d="M396.955,103.578 L564.345,234.486 L611.558,513.469 L431.292,419.44 L396.955,103.578 Z"/>
-            <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M431.292,419.44 L611.558,513.469 L358.327,595.18 L156.600,522.53 L431.292,419.44 Z"/>
-          </svg>
+          <a href="https://github.com/Sunpinex">Copyright © Aulduns 2023</a>
         </div>
       </div>
     </div>
     
     
-  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const param = JSON.parse('{"enable":true,"owner":null,"admin":null,"repo":null,"clientID":null,"clientSecret":null,"distractionFreeMode":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN"}')
+  param.id = location.pathname
+  const gitalk = new Gitalk(param)
+  gitalk.render('gitalk-container')
+</script>
+
 
   </body>
 </html>
