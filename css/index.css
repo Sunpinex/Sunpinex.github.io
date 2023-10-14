@@ -173,8 +173,7 @@
 }
 .radio-skin,
 .radio-skin--article,
-.radio-skin--app,
-.radio-skin--event {
+.radio-skin--essay {
   height: 100%;
   width: 2px;
   border-radius: 1px;
@@ -183,8 +182,7 @@
 }
 .radio-skin::after,
 .radio-skin--article::after,
-.radio-skin--app::after,
-.radio-skin--event::after {
+.radio-skin--essay::after {
   transition: all 0.4s ease;
   display: block;
   height: 20px;
@@ -200,68 +198,45 @@
   box-shadow: 1px 0 5px rgba(0,0,0,0.2);
 }
 .radio-skin--article::after {
-  border-color: #ee936c;
+  border-color: #58c3c3;
 }
 #radio-article:checked+.radio-skin--article {
-  background-color: #ee936c;
+  background-color: #58c3c3;
 }
 #radio-article:checked+.radio-skin--article::after {
-  background-color: #ee936c;
+  background-color: #58c3c3;
   top: -2px;
 }
 .timeline-item-article .line-anchor::after,
 .timeline-item-article--hidden .line-anchor::after {
-  background-color: #ee936c;
+  background-color: #58c3c3;
 }
 .timeline-item-article .line-date-tag,
 .timeline-item-article--hidden .line-date-tag {
-  background-color: #ee936c;
+  background-color: #58c3c3;
 }
 /*
   .timeline-item-app, .timeline-item-event {
     font-weight: bold;
   }
   */
-.radio-skin--app::after {
-  border-color: #60a465;
+.radio-skin--essay::after {
+  border-color: #f27635;
 }
-#radio-app:checked+.radio-skin--app {
-  background-color: #60a465;
+#radio-essay:checked+.radio-skin--essay {
+  background-color: #f27635;
 }
-#radio-app:checked+.radio-skin--app::after {
-  background-color: #60a465;
+#radio-essay:checked+.radio-skin--essay::after {
+  background-color: #f27635;
   top: -2px;
 }
-.timeline-item-app .line-anchor::after,
-.timeline-item-app--hidden .line-anchor::after {
-  background-color: #60a465;
+.timeline-item-essay .line-anchor::after,
+.timeline-item-essay--hidden .line-anchor::after {
+  background-color: #f27635;
 }
-.timeline-item-app .line-date-tag,
-.timeline-item-app--hidden .line-date-tag {
-  background-color: #60a465;
-}
-/*
-  .timeline-item-app, .timeline-item-event {
-    font-weight: bold;
-  }
-  */
-.radio-skin--event::after {
-  border-color: #568dc4;
-}
-#radio-event:checked+.radio-skin--event {
-  background-color: #568dc4;
-}
-#radio-event:checked+.radio-skin--event::after {
-  background-color: #568dc4;
-  top: -2px;
-}
-.timeline-item-event .line-anchor::after,
-.timeline-item-event--hidden .line-anchor::after {
-  background-color: #568dc4;
-}
-.timeline-item-event .line-date-tag,
-.timeline-item-event--hidden .line-date-tag {
-  background-color: #568dc4;
+.timeline-item-essay .line-date-tag,
+.timeline-item-essay--hidden .line-date-tag {
+  background-color: #f27635;
 }
 /*
   .timeline-item-app, .timeline-item-event {
