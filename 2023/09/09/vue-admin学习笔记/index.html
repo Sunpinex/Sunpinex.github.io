@@ -376,7 +376,7 @@
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <script type="text/javascript">
   const param = JSON.parse('{"enable":true,"title":"Aulduns Blog Comment","owner":"Sunpinex","admin":"Sunpinex","repo":"gitalk-for-blog","clientID":"5098ca7ea5fa94f17f79","clientSecret":"2cb364260adc996795affd0c9f586a15e91e911b","distractionFreeMode":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN"}')
-  param.id = location.pathname
+  param.id = decodeURI(location.pathname)
   const gitalk = new Gitalk(param)
   gitalk.render('gitalk-container')
 </script>
