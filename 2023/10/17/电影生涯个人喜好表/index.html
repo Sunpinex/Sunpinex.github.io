@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <title>
       
-        生活 | AULDUNS.SITE
+        电影生涯个人喜好表 | AULDUNS.SITE
       
     </title>
     <meta name="description" content="生命是一场盛大的腐烂"/>
@@ -58,7 +58,8 @@
           href='/css/layout.css'/>
     
     
-  <link rel="stylesheet" type="text/css" href="/css/category.css" />
+  <link rel="stylesheet" type="text/css" href="/css/post.css" />
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
 
   <meta name="generator" content="Hexo 6.3.0"></head>
   <body>
@@ -83,43 +84,75 @@
     </div>
     <div class="body">
       
-  <div class="wall wall-category--plain">
-    <div class="wall-main">
-      <div class="wall-category-title">
-        <div class="title-icon"
-             style="background-image: url(/images/icon/icon-pi.svg)"></div>
-        生活
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">电影生涯个人喜好表</div>
+        <div class="post-info">
+          
+  <a href="/tags/%E7%94%B5%E5%BD%B1/" class="post-tag">#电影</a>
+
+
+          <span class="post-date">2023-10-17</span>
+        </div>
       </div>
-      <div class="wall-category-description">我始终相信，人生是一个长期的均值回归，人生各个阶段的求学也好求职也好，这只是这条长达几十年均值回归上的一点点小噪音，你最后一定会和你的付出、能力与野心匹配上，所以不必为了一些短期的噪音而过多的焦虑。</div>
-      <div class="wall-category-tags">
-        <div id="tags-outer"><a href="/tags/%E7%94%B5%E5%BD%B1/" style="font-size: 1em;">电影</a></div>
+      
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        <h1 id="电影生涯个人喜好表"><a href="#电影生涯个人喜好表" class="headerlink" title="电影生涯个人喜好表"></a>电影生涯个人喜好表</h1><h3 align = "center" >最爱的</h3>
+
+<p><img src="C:\Users\13195\Desktop\AuldunsBlog-202310\source\assets\FilmList\best.png" alt="best"></p>
+<h3 id="美丽心灵"><a href="#美丽心灵" class="headerlink" title="美丽心灵"></a>美丽心灵</h3><blockquote>
+<p>众人给教授递钢笔</p>
+</blockquote>
+
       </div>
     </div>
-  </div>
-  <div class="post-list">
+  </article>
+  <div class="post__foot">
     
-      
+    <div class="post-nav">
   
-  <div class="post-card">
-    <div class="post__head">
-      <a href="/2023/10/17/%E7%94%B5%E5%BD%B1%E7%94%9F%E6%B6%AF%E4%B8%AA%E4%BA%BA%E5%96%9C%E5%A5%BD%E8%A1%A8/" class="post-title hover-line">电影生涯个人喜好表</a>
-      
-    </div>
-    <div class="post__body">
-      
-      <div class="post-excerpt"></div>
-    </div>
-    <div class="post__foot">
-      <div class="post-tags">
+    <div class="post-nav-item-left"></div>
+  
+  <div class="vhr"></div>
+  
+    <a class="post-nav-item-right" href="/2023/09/09/vue-admin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+      <div class="text-align">
+        <span class="text-small">下一篇</span>
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             transform="scale(-1,-1)"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+      </div>
+      vue-admin学习笔记
+    </a>
+  
+</div>
+
+    
+      <div class="related-post">
+  <div class="related__head">
   <a href="/tags/%E7%94%B5%E5%BD%B1/" class="post-tag">#电影</a>
 
 </div>
-    </div>
+  <div class="realated__body">
+    
+      
+    
   </div>
-
+</div>
 
     
-    
+    <div id="gitalk-container"></div>
   </div>
 
     </div>
@@ -159,7 +192,14 @@
     </div>
     
     
-  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const param = JSON.parse('{"enable":true,"title":"Aulduns Blog Comment","owner":"Sunpinex","admin":"Sunpinex","repo":"gitalk-for-blog","clientID":"5098ca7ea5fa94f17f79","clientSecret":"2cb364260adc996795affd0c9f586a15e91e911b","distractionFreeMode":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN"}')
+  param.id = decodeURI(location.pathname)
+  const gitalk = new Gitalk(param)
+  gitalk.render('gitalk-container')
+</script>
+
 
   </body>
 </html>
