@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <title>
       
-        开发者 | AULDUNS.SITE
+        沙漠中的风铃草 | AULDUNS.SITE
       
     </title>
     <meta name="description" content="生命是一场盛大的腐烂"/>
@@ -58,7 +58,8 @@
           href='/css/layout.css'/>
     
     
-  <link rel="stylesheet" type="text/css" href="/css/category.css" />
+  <link rel="stylesheet" type="text/css" href="/css/post.css" />
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
 
   <meta name="generator" content="Hexo 6.3.0"></head>
   <body>
@@ -83,61 +84,69 @@
     </div>
     <div class="body">
       
-  <div class="wall wall-category--plain">
-    <div class="wall-main">
-      <div class="wall-category-title">
-        <div class="title-icon"
-             style="background-image: url(/images/icon/icon-code.svg)"></div>
-        开发者
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">沙漠中的风铃草</div>
+        <div class="post-info">
+          
+  <a href="/tags/%E9%9A%8F%E7%AC%94/" class="post-tag">#随笔</a>
+
+
+          <span class="post-date">2023-10-24</span>
+        </div>
       </div>
-      <div class="wall-category-description">“留到最后一站才走的人，总有个要等的梦”</div>
-      <div class="wall-category-tags">
-        <div id="tags-outer"><a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 1em;">笔记</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1em;">随笔</a></div>
+      
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        
       </div>
     </div>
-  </div>
-  <div class="post-list">
+  </article>
+  <div class="post__foot">
     
-      
+    <div class="post-nav">
   
-  <div class="post-card--sticky">
-    <div class="post__head">
-      <a href="/2023/06/24/%E9%9A%8F%E4%BE%BF%E5%86%99%E7%82%B9%E4%BB%80%E4%B9%88/" class="post-title hover-line">随便写点什么</a>
-      <span class="post-title-pined">置顶</span>
-    </div>
-    <div class="post__body">
-      
-      <div class="post-excerpt"></div>
-    </div>
-    <div class="post__foot">
-      <div class="post-tags">
+    <div class="post-nav-item-left"></div>
+  
+  <div class="vhr"></div>
+  
+    <a class="post-nav-item-right" href="/2023/09/09/vue-admin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+      <div class="text-align">
+        <span class="text-small">下一篇</span>
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             transform="scale(-1,-1)"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+      </div>
+      vue-admin学习笔记
+    </a>
+  
+</div>
+
+    
+      <div class="related-post">
+  <div class="related__head">
   <a href="/tags/%E9%9A%8F%E7%AC%94/" class="post-tag">#随笔</a>
 
 </div>
-    </div>
+  <div class="realated__body">
+    
+      <div class="null"><div class="null-item"><div class="null-title"><a href="\2023\06\24\随便写点什么\" title="随便写点什么" rel="bookmark">随便写点什么</a></div></div></div>
+    
   </div>
-
-  
-  <div class="post-card">
-    <div class="post__head">
-      <a href="/2023/09/09/vue-admin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title hover-line">vue-admin学习笔记</a>
-      
-    </div>
-    <div class="post__body">
-      
-      <div class="post-excerpt">vue-element-plus-admin 模板学习笔记</div>
-    </div>
-    <div class="post__foot">
-      <div class="post-tags">
-  <a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag">#笔记</a>
-
 </div>
-    </div>
-  </div>
-
 
     
-    
+    <div id="gitalk-container"></div>
   </div>
 
     </div>
@@ -177,7 +186,14 @@
     </div>
     
     
-  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const param = JSON.parse('{"enable":true,"title":"Aulduns Blog Comment","owner":"Sunpinex","admin":"Sunpinex","repo":"gitalk-for-blog","clientID":"5098ca7ea5fa94f17f79","clientSecret":"2cb364260adc996795affd0c9f586a15e91e911b","distractionFreeMode":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN"}')
+  param.id = decodeURI(location.pathname)
+  const gitalk = new Gitalk(param)
+  gitalk.render('gitalk-container')
+</script>
+
 
   </body>
 </html>
