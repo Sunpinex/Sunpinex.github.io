@@ -447,6 +447,10 @@
     width: 200px;
   }
 }
+#music {
+  position: fixed;
+  bottom: 0%;
+}
 @-moz-keyframes spark {
   0% {
     opacity: 0;
