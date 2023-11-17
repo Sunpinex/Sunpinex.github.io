@@ -448,8 +448,7 @@
   }
 }
 #music {
-  position: fixed;
-  bottom: 0%;
+  display: none;
 }
 @-moz-keyframes spark {
   0% {
