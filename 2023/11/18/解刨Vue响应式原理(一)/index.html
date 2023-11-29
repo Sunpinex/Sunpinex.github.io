@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf8"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <title>
+      
+        保姆级解刨 Vue 响应式原理（一） | AULDUNS.SITE
+      
+    </title>
+    <meta name="description" content="生命是一场盛大的腐烂"/>
+    <meta name="keywords" content=""/>
+    
+      <link rel="apple-touch-icon"
+            sizes="180x180"
+            href="/images/apple-touch-icon.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/images/favicon-32x32.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/images/favicon-16x16.png"/>
+    
+    
+      <link rel="mask-icon"
+            href="/images/logo.svg"
+            color=""/>
+    
+    
+    
+      
+  <style>
+    @font-face {
+        font-family:sourceHanSerif;
+        src: url(/font/regular.ttf);
+        font-weight: regular;
+    }
+  </style>
+
+  <style>
+    @font-face {
+        font-family:sourceHanSerif;
+        src: url(/font/bold.ttf);
+        font-weight: bold;
+    }
+  </style>
+
+
+    
+    <link rel="stylesheet"
+          type="text/css"
+          href='/css/layout.css'/>
+    
+    
+  <link rel="stylesheet" type="text/css" href="/css/post.css" />
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div class="head">
+      <div class="nav">
+        <a href='/' class="nav-logo">
+          <img alt="logo" height="60px" width="60px" src="/images/logo.svg"/>
+        </a>
+        <input id="navBtn" type="checkbox"/>
+        <div class="nav-menu">
+          
+            
+              <a class="nav-menu-item" href="/developer">开发者</a>
+            
+              <a class="nav-menu-item" href="/life">生活</a>
+            
+          
+          
+        </div>
+        <label class="nav-btn" for="navBtn"></label>
+      </div>
+    </div>
+    <div class="body">
+      
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">保姆级解刨 Vue 响应式原理（一）</div>
+        <div class="post-info">
+          
+  <a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag">#笔记</a><a href="/tags/Vue/" class="post-tag">#Vue</a>
+
+
+          <span class="post-date">2023-11-18</span>
+        </div>
+      </div>
+      
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>响应式编程已经成为现代前端框架的主流设计思想之一，许多流行的前端框架，例如 Vue.js、React、Angular 等，都使用了响应式编程的概念，但它们的实现方式各有不同。接下来我会用此篇幅来剖析 Vue 的响应式原理，各抒己见还请多多指教。</p>
+<h2 id="响应式流程"><a href="#响应式流程" class="headerlink" title="响应式流程"></a>响应式流程</h2><p>案例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;div id=&quot;app&quot;&gt;<br>  &lt;div&gt;Name ==&gt; &#123;&#123; personalInfo.name &#125;&#125;&lt;/div&gt;<br>  &lt;div&gt;Age: ==&gt; &#123;&#123; personalInfo.age &#125;&#125;&lt;/div&gt;<br>  &lt;div&gt;Gender: ==&gt; &#123;&#123; personalInfo.gender &#125;&#125;&lt;/div&gt;<br>  &lt;button @click=&quot;becomeHero&quot;&gt;Become a superhero&lt;/button&gt;<br>&lt;/div&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script&gt;<br>var app = new Vue(&#123;<br>  el: &quot;#app&quot;,<br>  data() &#123;<br>    return &#123;<br>      personalInfo: &#123;<br>        name: &quot;Aulduns&quot;,<br>        age: &quot;21&quot;,<br>        gender: &quot;male&quot;,<br>      &#125;,<br>    &#125;;<br>  &#125;,<br>  methods: &#123;<br>    becomeHero() &#123;<br>      personalInfo.name = &quot;Captain Marvel&quot;;<br>      personalInfo.age = &quot;18&quot;;<br>      personalInfo.gender = &quot;Female&quot;;<br>    &#125;,<br>  &#125;,<br>&#125;);<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../assets/VueTheory/%E5%8A%A8%E7%94%BB.gif" alt="动画"></p>
+<p>数据发生变化后，会重新对页面渲染。这个过程实际需要三步骤：</p>
+<ul>
+<li>侦测数据的变化</li>
+<li>收集视图依赖了哪些数据</li>
+<li>数据变化时，自动“通知”需要更新的视图部分，并进行更新</li>
+</ul>
+<p>对应专业俗语分别是：</p>
+<ul>
+<li>数据劫持 &#x2F; 数据代理</li>
+<li>依赖收集</li>
+<li>发布订阅模式</li>
+</ul>
+<blockquote>
+<p>Vue 使用数据劫持来实现响应式。在 Vue 2 中，它通过 <code>Object.defineProperty</code> 来实现。在 Vue 3 中，使用 <code>Proxy</code> 替代了 <code>Object.defineProperty</code>(这里不过多阐述)</p>
+</blockquote>
+<h3 id="在了解原理前我们先来了解以下知识"><a href="#在了解原理前我们先来了解以下知识" class="headerlink" title="在了解原理前我们先来了解以下知识"></a>在了解原理前我们先来了解以下知识</h3><ol>
+<li>属性描述符(Property Descriptor)：在 JavaScript 中，每个属性都有一组属性描述符，用于定义属性的特性。属性描述符包括<code>get</code> 、<code>set</code>、<code>configurable</code>、<code>enumerable</code> 等。</li>
+<li><code>Object.defineProperty</code>：<code>Object.defineProperty(obj, prop, descriptor)</code> 方法用于定义对象的属性。通过这个方法，我们可以定义属性的 <code>get</code> 和 <code>set</code> 方法，从而在属性被访问或修改时执行自定义的逻辑</li>
+</ol>
+<h3 id="Object-defineProperty（）方法"><a href="#Object-defineProperty（）方法" class="headerlink" title="Object.defineProperty（）方法"></a><code>Object.defineProperty（）</code>方法</h3><p>上文说到我们可以定义属性的<code>get</code>和<code>set</code>方法，从而在属性被访问或修改时执行自定义的逻辑</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Aulduns</span> = &#123;<br>  <span class="hljs-attr">age</span>: <span class="hljs-number">1</span>,<br>&#125;;<br><br><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(<span class="hljs-title class_">Aulduns</span>, <span class="hljs-string">&quot;age&quot;</span>, &#123;<br>  <span class="hljs-comment">// getter</span><br>  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;你试图访问Aulduns的age属性&quot;</span>);<br>  &#125;,<br>  <span class="hljs-comment">// setter</span><br>  <span class="hljs-title function_">set</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;你试图改变Aulduns的age属性&quot;</span>);<br>  &#125;,<br>&#125;);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span>);<br><span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span> = <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../assets/VueTheory/Snipaste_2023-11-17_16-20-00.png" alt="Snipaste_2023-11-17_16-20-00"></p>
+<p>这里会看到打印的<code>console.log(Aulduns.age)</code>的值是 undefined，为什么？实际上，我们在拿去该值时相当于调用 get()方法，方法中没有返回值所以默认是 undefined。在执行 Aulduns.age &#x3D; 10 时实际上执行的是 set 方法。这样是不是类似于一个数据劫持？</p>
+<h3 id="defineReactive-函数："><a href="#defineReactive-函数：" class="headerlink" title="defineReactive 函数："></a><code>defineReactive</code> 函数：</h3><p>但是这样的数据劫持是远远不够的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(<span class="hljs-title class_">Aulduns</span>, <span class="hljs-string">&quot;age&quot;</span>, &#123;<br>  <span class="hljs-comment">// getter</span><br>  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;你试图访问Aulduns的age属性&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>  &#125;,<br>  <span class="hljs-comment">// setter</span><br>  <span class="hljs-title function_">set</span>(<span class="hljs-params">newValue</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;你试图改变Aulduns的age属性&quot;</span>, newValue);<br>  &#125;,<br>&#125;);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span>);<br><span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span> = <span class="hljs-number">10</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span>);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../assets/VueTheory/Snipaste_2023-11-17_16-28-38.png" alt="Snipaste_2023-11-17_16-28-38"></p>
+<p>我们看到此处对<code>Aulduns.age</code>的修改是失败的，因为 get 获取到的返回值还是 1。由此，采用闭包，诞生<code>defineReactive</code> 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Aulduns</span> = &#123;&#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">defineReactive</span>(<span class="hljs-params">obj, key, val</span>) &#123;<br>  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(obj, key, &#123;<br>    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 可枚举</span><br>    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 可配置</span><br>    <span class="hljs-attr">get</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`拿取<span class="hljs-subst">$&#123;key&#125;</span>的值==》<span class="hljs-subst">$&#123;val&#125;</span>`</span>);<br>      <span class="hljs-keyword">return</span> val;<br>    &#125;,<br>    <span class="hljs-attr">set</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">newVal</span>) &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`修改<span class="hljs-subst">$&#123;key&#125;</span>的值==》<span class="hljs-subst">$&#123;newVal&#125;</span>`</span>);<br>      <span class="hljs-keyword">if</span> (newVal !== val) &#123;<br>        val = newVal;<br>      &#125;<br>    &#125;,<br>  &#125;);<br>&#125;<br><br><span class="hljs-title function_">defineReactive</span>(<span class="hljs-title class_">Aulduns</span>, <span class="hljs-string">&quot;age&quot;</span>, <span class="hljs-string">&quot;21&quot;</span>);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span>);<br><span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">age</span> = <span class="hljs-number">18</span>;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../assets/VueTheory/Snipaste_2023-11-17_16-38-08.png" alt="Snipaste_2023-11-17_16-38-08"></p>
+<p>但是<code>defineReactive</code> <strong>无法检测到对象属性</strong>，可以看到这里并没有打印<code>拿取...的值=》...</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Aulduns</span> = &#123;<br>  <span class="hljs-attr">extra</span>: &#123;<br>    <span class="hljs-attr">hobby</span>: <span class="hljs-string">&quot;rap&quot;</span>,<br>  &#125;,<br>&#125;;<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Aulduns</span>.<span class="hljs-property">extra</span>.<span class="hljs-property">hobby</span>);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../assets/VueTheory/Snipaste_2023-11-17_17-19-18.png" alt="Snipaste_2023-11-17_17-19-18"></p>
+<h3 id="为解决上述问题，封装-Observer-类，它的作用是：采用递归将一个正常的-Object-转换为每个层级的属性都是响应式-可以被监测的-。"><a href="#为解决上述问题，封装-Observer-类，它的作用是：采用递归将一个正常的-Object-转换为每个层级的属性都是响应式-可以被监测的-。" class="headerlink" title="为解决上述问题，封装 Observer 类，它的作用是：采用递归将一个正常的 Object 转换为每个层级的属性都是响应式(可以被监测的)。"></a>为解决上述问题，封装 Observer 类，它的作用是：采用递归将一个正常的 Object 转换为每个层级的属性都是响应式(可以被监测的)。</h3><p><img src="/../assets/VueTheory/%E6%97%A0%E6%A0%87%E9%A2%98.png" alt="无标题"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Observe</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-comment">// 给实例添加__ob__属性，标识自己是一个Observe实例</span><br>    <span class="hljs-title function_">def</span>(value, <span class="hljs-string">&quot;__ob__&quot;</span>, <span class="hljs-variable language_">this</span>, <span class="hljs-literal">false</span>);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">walk</span>(value);<br>  &#125;<br>  <span class="hljs-comment">// 遍历</span><br>  <span class="hljs-title function_">walk</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">of</span> value) &#123;<br>      <span class="hljs-title function_">defineReactive</span>(value, key, value[key]);<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>def 函数如下(简单理解为给传入 obj 对象添加<code>__obj__</code>属性)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">def</span>(<span class="hljs-params">obj, key, value, enumerable</span>) &#123;<br>  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(obj, key, &#123;<br>    value,<br>    enumerable,<br>    <span class="hljs-attr">writable</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="封装-observe-函数"><a href="#封装-observe-函数" class="headerlink" title="封装 observe 函数"></a>封装 observe 函数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">observe</span>(<span class="hljs-params">value</span>) &#123;<br>  <span class="hljs-comment">// 不为对象，什么都不做</span><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value != <span class="hljs-string">&quot;object&quot;</span>) <span class="hljs-keyword">return</span>;<br>  <span class="hljs-keyword">var</span> ob;<br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value.<span class="hljs-property">__ob__</span> !== <span class="hljs-string">&quot;undefined&quot;</span>) &#123;<br>    ob = value.<span class="hljs-property">__ob__</span>;<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    ob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Observe</span>(value);<br>  &#125;<br>  <span class="hljs-keyword">return</span> ob;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后，在<code>defineReactive</code>调用 observe 传入 obj。至此，形成递归，这个递归不是函数自己调用自己，而是多个函数、类循环调用，完成闭环(膜拜尤神)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">defineReactive</span>(<span class="hljs-params">obj, key, val</span>) &#123;<br>  <span class="hljs-keyword">var</span> childOb = <span class="hljs-title function_">observe</span>(obj);<br><br>  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(obj, key, &#123;<br>    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 可枚举</span><br>    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 可配置</span><br>    <span class="hljs-attr">get</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`拿取<span class="hljs-subst">$&#123;key&#125;</span>的值==》<span class="hljs-subst">$&#123;val&#125;</span>`</span>);<br>      <span class="hljs-keyword">return</span> val;<br>    &#125;,<br>    <span class="hljs-attr">set</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">newVal</span>) &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`修改<span class="hljs-subst">$&#123;key&#125;</span>的值==》<span class="hljs-subst">$&#123;newVal&#125;</span>`</span>);<br>      <span class="hljs-keyword">if</span> (newVal !== val) &#123;<br>        val = newVal;<br>        childOb = <span class="hljs-title function_">observe</span>(newVal);<br>      &#125;<br>    &#125;,<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>值得注意的是：当设置了新值，调用 set 方法时，这个新值也需要被 observe(考虑到新值为一个对象)</p>
+
+      </div>
+    </div>
+  </article>
+  <div class="post__foot">
+    
+    <div class="post-nav">
+  
+    <div class="post-nav-item-left"></div>
+  
+  <div class="vhr"></div>
+  
+    <a class="post-nav-item-right" href="/2023/10/28/Promise%E5%B8%B8%E7%94%A8%E7%94%A8%E6%B3%95/">
+      <div class="text-align">
+        <span class="text-small">下一篇</span>
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             transform="scale(-1,-1)"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+      </div>
+      Promise常用用法
+    </a>
+  
+</div>
+
+    
+      <div class="related-post">
+  <div class="related__head">
+  <a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag">#笔记</a><a href="/tags/Vue/" class="post-tag">#Vue</a>
+
+</div>
+  <div class="realated__body">
+    
+      <div class="null"><div class="null-item"><div class="null-title"><a href="\2023\09\09\vue-admin学习笔记\" title="vue-admin学习笔记" rel="bookmark">vue-admin学习笔记</a></div></div><div class="null-item"><div class="null-title"><a href="\2023\10\28\Promise常用用法\" title="Promise常用用法" rel="bookmark">Promise常用用法</a></div></div><div class="null-item"><div class="null-title"><a href="\2023\06\24\随便写点什么\" title="随便写点什么" rel="bookmark">随便写点什么</a></div></div></div>
+    
+  </div>
+</div>
+
+    
+    <div id="gitalk-container"></div>
+  </div>
+
+    </div>
+    <div class="foot">
+      <div class="foot-inner">
+        
+        <div class="foot__body">
+          
+          
+            <div class="foot-item">
+              <div class="foot-item__body">
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-github.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://github.com/Sunpinex">github：sunpinex</a>
+                  </div>
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-wx.svg"/>
+                    <a class="foot-link" href="">微信号：Fchwpo02</a>
+                  </div>
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-mail.svg"/>
+                    <a class="foot-link" href="">auldunsyoung@gmail.com</a>
+                  </div>
+                
+              </div>
+            </div>
+          
+         
+        </div>
+        <div class="copyright">
+          <div>Copyright © Aulduns 2023</div>
+        </div>
+      </div>
+    </div>
+    
+    
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const param = JSON.parse('{"enable":true,"title":"Aulduns Blog Comment","owner":"Sunpinex","admin":"Sunpinex","repo":"gitalk-for-blog","clientID":"5098ca7ea5fa94f17f79","clientSecret":"2cb364260adc996795affd0c9f586a15e91e911b","distractionFreeMode":false,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN"}')
+  param.id = decodeURI(location.pathname)
+  const gitalk = new Gitalk(param)
+  gitalk.render('gitalk-container')
+</script>
+
+
+  </body>
+</html>
